@@ -7,6 +7,8 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 @Repository
 public class InventoryRepositoryImpl implements InventoryRepository {
 
@@ -17,6 +19,11 @@ public class InventoryRepositoryImpl implements InventoryRepository {
     @Transactional
     public void save(Product product) {
         entityManager.persist(ProductMapper.INSTANCE.toEntity(product));
+    }
+
+    @Override
+    public void deleteById(UUID id) {
+
     }
 
 }
