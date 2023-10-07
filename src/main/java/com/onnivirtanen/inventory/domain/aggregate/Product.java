@@ -1,6 +1,7 @@
 package com.onnivirtanen.inventory.domain.aggregate;
 
 import com.onnivirtanen.inventory.domain.entity.Category;
+import com.onnivirtanen.inventory.domain.request.AddNewProductRequest;
 import com.onnivirtanen.inventory.domain.valueobject.Discount;
 import com.onnivirtanen.inventory.domain.valueobject.EANBarcode;
 import com.onnivirtanen.inventory.domain.valueobject.Price;
@@ -8,6 +9,8 @@ import com.onnivirtanen.inventory.domain.entity.ProductEvent;
 import com.onnivirtanen.inventory.domain.valueobject.ShelfLocation;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -78,6 +81,21 @@ public class Product implements Aggregate {
 
     public void addEvent(ProductEvent event) {
         this.eventHistory.add(event);
+    }
+
+    public static Product from(AddNewProductRequest request) {
+        ProductEvent createEvent = new ProductEvent(null, ProductEvent.ProductEventType.PRODUCT_CREATED);
+
+        return new Product(
+                null,
+                request.barcode(),
+                request.price(),
+                request.category(),
+                request.location(),
+                new ArrayList<>(Collections.singleton(createEvent)),
+                null,
+                request.quantity()
+        );
     }
 
     @Override

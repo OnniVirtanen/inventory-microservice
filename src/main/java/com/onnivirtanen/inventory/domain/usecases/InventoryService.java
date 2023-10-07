@@ -17,13 +17,8 @@ public class InventoryService implements UseCase {
 
     @Override
     public void addNewProduct(AddNewProductRequest request) {
-        Product product = new Product(
-                null,
-                request.
-        );
-
-
-        // save
+        Product product = Product.from(request);
+        repository.save(product);
     }
 
     @Override
