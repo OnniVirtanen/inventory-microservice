@@ -30,7 +30,6 @@ public final class ProductEvent implements Entity {
         PRODUCT_CREATED("New product added to the inventory."),
         PRICE_CHANGED("Price updated."),
         CATEGORY_CHANGED("Category updated."),
-        //... Other events here
         EXPIRATION_DATE_UPDATED("Expiration or 'best by' date for product set or updated.");
 
         private final String description;
