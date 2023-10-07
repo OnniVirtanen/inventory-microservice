@@ -16,7 +16,7 @@ public class InventoryRepositoryImpl implements InventoryRepository {
     @Override
     @Transactional
     public void save(Product product) {
-        entityManager.persist(product);
+        entityManager.persist(ProductMapper.INSTANCE.toEntity(product));
     }
 
 }

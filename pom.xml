@@ -52,6 +52,20 @@
 			<artifactId>h2</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- MapStruct -->
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>1.5.0.Beta1</version> <!-- Check for the latest version on the MapStruct website or Maven Central -->
+		</dependency>
+
+		<!-- MapStruct Processor (for compile-time code generation) -->
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct-processor</artifactId>
+			<version>1.5.0.Beta1</version> <!-- Use the same version as mapstruct -->
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

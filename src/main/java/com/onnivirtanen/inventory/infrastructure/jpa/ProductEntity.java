@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@RequiredArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -40,32 +39,4 @@ public class ProductEntity {
     private Integer discount;
     private long quantity;
 
-    public static ProductEntity fromDomainObject(Product product) {
-        ProductEntity entity = new ProductEntity();
-
-        entity.setId(product.getId());
-        entity.setEventHistory(ProductEventEntity.fromDomainObject(product.getEventHistory()));
-        entity.setBarcode(product.getBarcode().getBarcode());
-        entity.setPrice(product.getPrice().getAmount());
-        entity.setCategory(CategoryEntity.fromDomainObject(product.getCategory()));
-        entity.setLocation(product.getLocation().getLocation());
-        entity.setDiscount(product.getDiscount().getDiscountPercentage());
-        entity.setQuantity(product.getQuantity());
-
-        return entity;
-    }
-
-    public Product toDomainObject() {
-
-        return new Product(
-                this.id,
-                new EANBarcode(this.barcode),
-                new Price(this.price),
-                this.category.toDomainObject(),
-                new ShelfLocation(this.location),
-                this.eventHistory.toDomainObject(),
-                new Discount(this.discount),
-                this.quantity
-        );
-    }
 }
