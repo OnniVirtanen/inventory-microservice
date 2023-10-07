@@ -11,7 +11,11 @@ public class Category implements Entity {
     private UUID categoryId;
     private final CategoryName name;
 
-    public Category(CategoryName name) {
+    public Category(UUID categoryId, String categoryName) {
+        this(categoryId, CategoryName.valueOf(categoryName.toUpperCase()));
+    }
+
+    public Category(UUID categoryId, CategoryName name) {
         validate(name);
 
         this.name = name;

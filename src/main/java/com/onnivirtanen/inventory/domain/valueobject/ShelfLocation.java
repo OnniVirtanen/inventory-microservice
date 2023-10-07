@@ -1,10 +1,12 @@
 package com.onnivirtanen.inventory.domain.valueobject;
 
+import jakarta.persistence.Embeddable;
 import lombok.Getter;
 
 import java.util.Objects;
 
 @Getter
+@Embeddable
 public final class ShelfLocation implements ValueObject {
 
     private final String location;
@@ -13,6 +15,13 @@ public final class ShelfLocation implements ValueObject {
         validate(location);
 
         this.location = location;
+    }
+
+    /**
+     * Needed for hibernate
+     */
+    protected ShelfLocation() {
+        location = null;
     }
 
     private static void validate(String location) {

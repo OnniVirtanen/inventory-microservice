@@ -1,21 +1,27 @@
 package com.onnivirtanen.inventory.domain.valueobject;
 
+import jakarta.persistence.Embeddable;
 import lombok.Getter;
 
 import java.util.Objects;
 
 @Getter
+@Embeddable
 public class Discount implements ValueObject {
 
-    private final int discountPercentage;
+    private final Integer discountPercentage;
 
-    public Discount(int discountPercentage) {
+    public Discount(Integer discountPercentage) {
         validate(discountPercentage);
 
         this.discountPercentage = discountPercentage;
     }
 
-    private static void validate(int discountPercentage) {
+    protected Discount() {
+        discountPercentage = null;
+    }
+
+    private static void validate(Integer discountPercentage) {
         if (discountPercentage <= 0 || discountPercentage >= 100) {
             throw new IllegalArgumentException(
                     "Discount cannot be less than or equal to 0 OR more than or equal to 100."
@@ -28,7 +34,7 @@ public class Discount implements ValueObject {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Discount discount = (Discount) o;
-        return discountPercentage == discount.discountPercentage;
+        return Objects.equals(discountPercentage, discount.discountPercentage);
     }
 
     @Override

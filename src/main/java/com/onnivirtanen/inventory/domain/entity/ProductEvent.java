@@ -13,16 +13,16 @@ public final class ProductEvent implements Entity {
     private final LocalDateTime timestamp;
 
     public ProductEvent(UUID productEventId, ProductEventType eventType) {
-        validate(productEventId, eventType);
+        validate(eventType);
 
         this.productEventId = productEventId;
         this.eventType = eventType;
         this.timestamp = LocalDateTime.now();
     }
 
-    private static void validate(UUID productEventId, ProductEventType eventType) {
-        if (productEventId == null || eventType == null) {
-            throw new IllegalArgumentException("Product event cannot have null fields.");
+    private static void validate(ProductEventType eventType) {
+        if (eventType == null) {
+            throw new IllegalArgumentException("Product event cannot be null.");
         }
     }
 

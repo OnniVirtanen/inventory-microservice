@@ -1,8 +1,10 @@
 package com.onnivirtanen.inventory.domain.valueobject;
 
+import jakarta.persistence.Embeddable;
 import lombok.Getter;
 
 @Getter
+@Embeddable
 public final class EANBarcode implements ValueObject {
 
     private final String barcode;
@@ -10,6 +12,13 @@ public final class EANBarcode implements ValueObject {
     public EANBarcode(String barcode) {
         validate(barcode);
         this.barcode = barcode;
+    }
+
+    /**
+     * Needed for hibernate
+     */
+    protected EANBarcode() {
+        barcode = null;
     }
 
     private static void validate(String barcode) {

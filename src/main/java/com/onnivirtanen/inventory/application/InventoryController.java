@@ -4,6 +4,7 @@ import com.onnivirtanen.inventory.domain.request.AddNewProductRequest;
 import com.onnivirtanen.inventory.domain.usecases.UseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +19,7 @@ public class InventoryController {
     }
 
     @PostMapping
-    ResponseEntity<String> addNewProduct(AddNewProductRequest request) {
+    ResponseEntity<String> addNewProduct(@RequestBody AddNewProductRequest request) {
         useCase.addNewProduct(request);
         return ResponseEntity.ok("Product added successfully.");
     }

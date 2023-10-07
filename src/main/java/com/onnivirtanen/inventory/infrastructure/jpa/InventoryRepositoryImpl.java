@@ -1,4 +1,4 @@
-package com.onnivirtanen.inventory.infrastructure;
+package com.onnivirtanen.inventory.infrastructure.jpa;
 
 import com.onnivirtanen.inventory.domain.aggregate.Product;
 import com.onnivirtanen.inventory.domain.repository.InventoryRepository;
