@@ -7,9 +7,7 @@ import com.onnivirtanen.inventory.domain.valueobject.Price;
 import com.onnivirtanen.inventory.domain.entity.ProductEvent;
 import com.onnivirtanen.inventory.domain.valueobject.ShelfLocation;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -24,10 +22,10 @@ public class Product implements Aggregate {
     private Category category;
     private ShelfLocation location;
     private Discount discount;
-    private long amount;
+    private long quantity;
 
     public Product(UUID id, EANBarcode barcode, Price price, Category category, ShelfLocation location,
-                   List<ProductEvent> eventHistory, Discount discount, long amount) {
+                   List<ProductEvent> eventHistory, Discount discount, long quantity) {
         this.id = id;
         this.barcode = barcode;
         this.price = price;
@@ -35,7 +33,7 @@ public class Product implements Aggregate {
         this.location = location;
         this.eventHistory = eventHistory;
         this.discount = discount;
-        this.amount = amount;
+        this.quantity = quantity;
     }
 
     public void assignNewBarCode(EANBarcode barcode) {
@@ -50,16 +48,16 @@ public class Product implements Aggregate {
         this.category = category;
     }
 
-    public void reStock(long amount) {
-        this.amount = this.amount + amount;
+    public void reStock(long quantity) {
+        this.quantity = this.quantity + quantity;
     }
 
-    public void markProductMissing(long amountMissing) {
-        if (this.amount - amountMissing < 0) {
+    public void markProductMissing(long quantityMissing) {
+        if (this.quantity - quantityMissing < 0) {
             throw new IllegalArgumentException("Product cannot have more items missing than there is stock.");
         }
 
-        this.amount = this.amount - amountMissing;
+        this.quantity = this.quantity - quantityMissing;
     }
 
     public void removeDiscount() {
@@ -104,7 +102,7 @@ public class Product implements Aggregate {
                 ", category=" + category +
                 ", location=" + location +
                 ", eventHistory=" + eventHistory +
-                ", amount=" + amount +
+                ", quantity=" + quantity +
                 '}';
     }
 }
