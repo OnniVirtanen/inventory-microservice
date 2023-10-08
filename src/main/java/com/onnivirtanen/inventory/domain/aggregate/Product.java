@@ -6,6 +6,7 @@ import com.onnivirtanen.inventory.domain.valueobject.Discount;
 import com.onnivirtanen.inventory.domain.valueobject.EANBarcode;
 import com.onnivirtanen.inventory.domain.valueobject.Price;
 import com.onnivirtanen.inventory.domain.entity.ProductEvent;
+import com.onnivirtanen.inventory.domain.valueobject.Quantity;
 import com.onnivirtanen.inventory.domain.valueobject.ShelfLocation;
 import lombok.Getter;
 
@@ -25,10 +26,10 @@ public class Product implements Aggregate {
     private Category category;
     private ShelfLocation location;
     private Discount discount;
-    private long quantity;
+    private Quantity quantity;
 
     public Product(UUID id, EANBarcode barcode, Price price, Category category, ShelfLocation location,
-                   List<ProductEvent> eventHistory, Discount discount, long quantity) {
+                   List<ProductEvent> eventHistory, Discount discount, Quantity quantity) {
         this.id = id;
         this.barcode = barcode;
         this.price = price;
@@ -51,19 +52,19 @@ public class Product implements Aggregate {
         this.category = category;
     }
 
-    public void reStock(long quantity) {
+    public void reStock(Quantity quantity) {
         ProductEvent reStockEvent = new ProductEvent(null, ProductEvent.ProductEventType.PRODUCT_RESTOCKED);
 
         this.eventHistory.add(reStockEvent);
-        this.quantity = this.quantity + quantity;
+        this.quantity = new Quantity(this.quantity.getAmount() + quantity.getAmount());
     }
 
-    public void markProductMissing(long quantityMissing) {
-        if (this.quantity - quantityMissing < 0) {
+    public void markProductMissing(Quantity quantityMissing) {
+        if (this.quantity.getAmount() - quantityMissing.getAmount() < 0) {
             throw new IllegalArgumentException("Product cannot have more items missing than there is stock.");
         }
 
-        this.quantity = this.quantity - quantityMissing;
+        this.quantity = new Quantity(this.quantity.getAmount() - quantityMissing.getAmount());
     }
 
     public void removeDiscount() {

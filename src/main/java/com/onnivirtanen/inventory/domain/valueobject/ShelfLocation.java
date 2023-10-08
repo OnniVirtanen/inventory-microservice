@@ -1,6 +1,5 @@
 package com.onnivirtanen.inventory.domain.valueobject;
 
-import jakarta.persistence.Embeddable;
 import lombok.Getter;
 
 import java.util.Objects;

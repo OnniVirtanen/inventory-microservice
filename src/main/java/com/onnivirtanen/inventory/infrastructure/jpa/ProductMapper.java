@@ -5,6 +5,7 @@ import com.onnivirtanen.inventory.domain.entity.Category;
 import com.onnivirtanen.inventory.domain.valueobject.Discount;
 import com.onnivirtanen.inventory.domain.valueobject.EANBarcode;
 import com.onnivirtanen.inventory.domain.valueobject.Price;
+import com.onnivirtanen.inventory.domain.valueobject.Quantity;
 import com.onnivirtanen.inventory.domain.valueobject.ShelfLocation;
 import com.onnivirtanen.inventory.infrastructure.jpa.entity.CategoryEntity;
 import com.onnivirtanen.inventory.infrastructure.jpa.entity.ProductEntity;
@@ -12,7 +13,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @Mapper
 public interface ProductMapper {
@@ -44,6 +44,10 @@ public interface ProductMapper {
         return (value == null) ? null : value.getDiscountPercentage();
     }
 
+    default Long quantityToLong(Quantity value) {
+        return (value == null) ? null : value.getAmount();
+    }
+
         /*
     Maps product entity to product
      */
@@ -70,5 +74,9 @@ public interface ProductMapper {
 
     default ShelfLocation stringToShelfLocation(String value) {
         return new ShelfLocation(value);
+    }
+
+    default Quantity longToQuantity(Long value) {
+        return new Quantity(value);
     }
 }

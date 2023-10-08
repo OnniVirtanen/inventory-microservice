@@ -4,6 +4,7 @@ import com.onnivirtanen.inventory.domain.entity.Category;
 import com.onnivirtanen.inventory.domain.valueobject.Discount;
 import com.onnivirtanen.inventory.domain.valueobject.EANBarcode;
 import com.onnivirtanen.inventory.domain.valueobject.Price;
+import com.onnivirtanen.inventory.domain.valueobject.Quantity;
 import com.onnivirtanen.inventory.domain.valueobject.ShelfLocation;
 import lombok.NonNull;
 
@@ -19,7 +20,8 @@ public record AddNewProductRequest(
         ShelfLocation location,
         @NonNull
         Discount discount,
-        long quantity
+        @NonNull
+        Quantity quantity
 ) {
 
 }

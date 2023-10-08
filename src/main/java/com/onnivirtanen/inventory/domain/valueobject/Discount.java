@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.util.Objects;
 
 @Getter
-public class Discount implements ValueObject {
+public final class Discount implements ValueObject {
 
     private final Integer discountPercentage;
 

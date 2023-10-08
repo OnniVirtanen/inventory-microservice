@@ -32,5 +32,5 @@ public class ProductEntity {
     private CategoryEntity category;
     private String location;
     private Integer discount;
-    private long quantity;
+    private Long quantity;
 }
