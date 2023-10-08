@@ -2,6 +2,7 @@ package com.onnivirtanen.inventory.infrastructure.jpa;
 
 import com.onnivirtanen.inventory.domain.aggregate.Product;
 import com.onnivirtanen.inventory.domain.repository.InventoryRepository;
+import com.onnivirtanen.inventory.domain.valueobject.EANBarcode;
 import com.onnivirtanen.inventory.infrastructure.jpa.entity.ProductEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -32,8 +33,8 @@ public class InventoryRepositoryImpl implements InventoryRepository {
 
     @Override
     @Transactional
-    public void deleteById(UUID id) {
-        ProductEntity productEntity = entityManager.find(ProductEntity.class, id);
+    public void deleteById(UUID productId) {
+        ProductEntity productEntity = entityManager.find(ProductEntity.class, productId);
         if (productEntity != null) {
             entityManager.remove(productEntity);
         }
@@ -62,5 +63,17 @@ public class InventoryRepositoryImpl implements InventoryRepository {
     public void update(Product product) {
         ProductEntity productEntity = ProductMapper.INSTANCE.productToProductEntity(product);
         entityManager.merge(productEntity);
+    }
+
+    @Override
+    public boolean productExistsByEAN(EANBarcode eanBarcode) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+        Root<ProductEntity> root = cq.from(ProductEntity.class);
+
+        cq.select(cb.count(root)).where(cb.equal(root.get("barcode"), eanBarcode.getBarcode()));
+        Long count = entityManager.createQuery(cq).getSingleResult();
+
+        return (count > 0);
     }
 }

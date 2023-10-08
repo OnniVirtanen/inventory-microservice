@@ -67,15 +67,22 @@ public class Product implements Aggregate {
             throw new IllegalArgumentException("Product cannot have more items missing than there is stock.");
         }
 
+        LocalDateTime timestamp = LocalDateTime.now();
+        ProductEvent missingProductEvent =
+                new ProductEvent(null, ProductEvent.ProductEventType.PRODUCT_MISSING, timestamp);
+
+        this.eventHistory.add(missingProductEvent);
         this.quantity = new Quantity(this.quantity.getAmount() - quantityMissing.getAmount());
     }
 
     public void removeDiscount() {
-        this.discount = null;
+        this.discount = new Discount(0);
     }
 
     public boolean isDiscounted() {
-        return (this.discount == null);
+        if (this.discount == null) {
+            return false;
+        } else return this.discount.getDiscountPercentage() != 0;
     }
 
     public void addDiscount(Discount discount) {
@@ -83,10 +90,15 @@ public class Product implements Aggregate {
     }
 
     public void assignShelfLocation(ShelfLocation location) {
+        LocalDateTime timestamp = LocalDateTime.now();
+        ProductEvent newShelfEvent =
+                new ProductEvent(null, ProductEvent.ProductEventType.NEW_SHELF_LOCATION, timestamp);
+
+        this.eventHistory.add(newShelfEvent);
         this.location = location;
     }
 
-    public void addEvent(ProductEvent event) {
+    private void addEvent(ProductEvent event) {
         this.eventHistory.add(event);
     }
 
