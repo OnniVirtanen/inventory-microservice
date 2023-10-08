@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -30,8 +31,12 @@ public class InventoryRepositoryImpl implements InventoryRepository {
     }
 
     @Override
+    @Transactional
     public void deleteById(UUID id) {
-
+        ProductEntity productEntity = entityManager.find(ProductEntity.class, id);
+        if (productEntity != null) {
+            entityManager.remove(productEntity);
+        }
     }
 
     @Override
@@ -45,4 +50,17 @@ public class InventoryRepositoryImpl implements InventoryRepository {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Optional<Product> findById(UUID productId) {
+        ProductEntity productEntity = entityManager.find(ProductEntity.class, productId);
+        return Optional.ofNullable(productEntity)
+                .map(ProductMapper.INSTANCE::productEntityToProduct);
+    }
+
+    @Override
+    @Transactional
+    public void update(Product product) {
+        ProductEntity productEntity = ProductMapper.INSTANCE.productToProductEntity(product);
+        entityManager.merge(productEntity);
+    }
 }

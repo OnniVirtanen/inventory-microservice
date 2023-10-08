@@ -52,6 +52,9 @@ public class Product implements Aggregate {
     }
 
     public void reStock(long quantity) {
+        ProductEvent reStockEvent = new ProductEvent(null, ProductEvent.ProductEventType.PRODUCT_RESTOCKED);
+
+        this.eventHistory.add(reStockEvent);
         this.quantity = this.quantity + quantity;
     }
 

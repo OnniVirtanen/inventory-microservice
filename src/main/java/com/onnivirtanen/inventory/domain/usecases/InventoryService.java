@@ -1,6 +1,7 @@
 package com.onnivirtanen.inventory.domain.usecases;
 
 import com.onnivirtanen.inventory.domain.aggregate.Product;
+import com.onnivirtanen.inventory.domain.exception.ProductNotFoundException;
 import com.onnivirtanen.inventory.domain.repository.InventoryRepository;
 import com.onnivirtanen.inventory.domain.request.AddNewProductRequest;
 import com.onnivirtanen.inventory.domain.request.ReStockProductRequest;
@@ -26,7 +27,12 @@ public class InventoryService implements UseCase {
 
     @Override
     public void reStockProduct(ReStockProductRequest request) {
+        Product product = repository.findById(request.productId())
+                .orElseThrow(() -> new ProductNotFoundException("No patient found by given id"));
 
+        product.reStock(request.quantity());
+
+        repository.update(product);
     }
 
     @Override

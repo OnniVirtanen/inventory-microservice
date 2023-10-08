@@ -2,10 +2,12 @@ package com.onnivirtanen.inventory.application;
 
 import com.onnivirtanen.inventory.domain.aggregate.Product;
 import com.onnivirtanen.inventory.domain.request.AddNewProductRequest;
+import com.onnivirtanen.inventory.domain.request.ReStockProductRequest;
 import com.onnivirtanen.inventory.domain.usecases.UseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,5 +34,11 @@ public class InventoryController {
     ResponseEntity<List<Product>> findAllProducts() {
         List<Product> products = useCase.findAllProducts();
         return ResponseEntity.ok(products);
+    }
+
+    @PutMapping
+    ResponseEntity<String> reStockProduct(@RequestBody ReStockProductRequest request) {
+        useCase.reStockProduct(request);
+        return ResponseEntity.ok("Product restocked successfully.");
     }
 }
