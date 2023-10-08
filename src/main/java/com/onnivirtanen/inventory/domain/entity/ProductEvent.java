@@ -12,12 +12,12 @@ public final class ProductEvent implements Entity {
     private final ProductEventType eventType;
     private final LocalDateTime timestamp;
 
-    public ProductEvent(UUID productEventId, ProductEventType eventType) {
+    public ProductEvent(UUID productEventId, ProductEventType eventType, LocalDateTime timestamp) {
         validate(eventType);
 
         this.productEventId = productEventId;
         this.eventType = eventType;
-        this.timestamp = LocalDateTime.now();
+        this.timestamp = timestamp;
     }
 
     private static void validate(ProductEventType eventType) {
