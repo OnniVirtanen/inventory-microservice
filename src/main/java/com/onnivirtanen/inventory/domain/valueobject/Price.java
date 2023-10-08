@@ -1,13 +1,11 @@
 package com.onnivirtanen.inventory.domain.valueobject;
 
-import jakarta.persistence.Embeddable;
 import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
 @Getter
-@Embeddable
 public final class Price implements ValueObject {
 
     private final BigDecimal amount;
@@ -16,13 +14,6 @@ public final class Price implements ValueObject {
         validate(amount);
 
         this.amount = amount;
-    }
-
-    /**
-     * Needed for hibernate
-     */
-    protected Price() {
-        amount = null;
     }
 
     private static void validate(BigDecimal amount) {

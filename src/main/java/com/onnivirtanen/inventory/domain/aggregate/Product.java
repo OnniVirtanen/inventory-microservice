@@ -93,7 +93,7 @@ public class Product implements Aggregate {
                 request.category(),
                 request.location(),
                 new ArrayList<>(Collections.singleton(createEvent)),
-                null,
+                request.discount(),
                 request.quantity()
         );
     }

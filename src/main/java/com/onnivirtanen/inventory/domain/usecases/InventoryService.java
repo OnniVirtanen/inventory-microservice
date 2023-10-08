@@ -6,6 +6,7 @@ import com.onnivirtanen.inventory.domain.request.AddNewProductRequest;
 import com.onnivirtanen.inventory.domain.request.ReStockProductRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -31,5 +32,10 @@ public class InventoryService implements UseCase {
     @Override
     public void removeProductFromSelection(UUID id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public List<Product> findAllProducts() {
+        return repository.findAll();
     }
 }
