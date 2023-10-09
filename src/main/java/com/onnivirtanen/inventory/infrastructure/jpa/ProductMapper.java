@@ -1,12 +1,12 @@
 package com.onnivirtanen.inventory.infrastructure.jpa;
 
-import com.onnivirtanen.inventory.domain.aggregate.Product;
-import com.onnivirtanen.inventory.domain.entity.Category;
-import com.onnivirtanen.inventory.domain.valueobject.Discount;
-import com.onnivirtanen.inventory.domain.valueobject.EANBarcode;
-import com.onnivirtanen.inventory.domain.valueobject.Price;
-import com.onnivirtanen.inventory.domain.valueobject.Quantity;
-import com.onnivirtanen.inventory.domain.valueobject.ShelfLocation;
+import com.onnivirtanen.inventory.domain.model.aggregate.Product;
+import com.onnivirtanen.inventory.domain.model.entity.Category;
+import com.onnivirtanen.inventory.domain.model.valueobject.Discount;
+import com.onnivirtanen.inventory.domain.model.valueobject.EANBarcode;
+import com.onnivirtanen.inventory.domain.model.valueobject.Price;
+import com.onnivirtanen.inventory.domain.model.valueobject.Quantity;
+import com.onnivirtanen.inventory.domain.model.valueobject.ShelfLocation;
 import com.onnivirtanen.inventory.infrastructure.jpa.entity.CategoryEntity;
 import com.onnivirtanen.inventory.infrastructure.jpa.entity.ProductEntity;
 import org.mapstruct.Mapper;
@@ -48,9 +48,9 @@ public interface ProductMapper {
         return (value == null) ? null : value.getAmount();
     }
 
-        /*
+    /*
     Maps product entity to product
-     */
+    */
 
     default EANBarcode stringToEanBarcode(String value) {
         return new EANBarcode(value);

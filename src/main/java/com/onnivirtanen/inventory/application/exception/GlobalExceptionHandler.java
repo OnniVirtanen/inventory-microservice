@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.onnivirtanen.inventory.domain.exception.ProductAlreadyExistsException;
-import com.onnivirtanen.inventory.domain.exception.ProductNotFoundException;
+import com.onnivirtanen.inventory.domain.model.exception.ProductAlreadyExistsException;
+import com.onnivirtanen.inventory.domain.model.exception.ProductNotFoundException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

@@ -1,7 +1,7 @@
 package com.onnivirtanen.inventory.infrastructure.jpa.entity;
 
 
-import com.onnivirtanen.inventory.domain.entity.Category;
+import com.onnivirtanen.inventory.domain.model.entity.Category;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
