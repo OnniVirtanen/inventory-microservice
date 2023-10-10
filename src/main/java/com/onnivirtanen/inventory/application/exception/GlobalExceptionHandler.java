@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.onnivirtanen.inventory.domain.model.exception.ProductAlreadyExistsException;
-import com.onnivirtanen.inventory.domain.model.exception.ProductNotFoundException;
+import com.onnivirtanen.inventory.domain.exception.ProductAlreadyExistsException;
+import com.onnivirtanen.inventory.domain.exception.ProductNotFoundException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 /**
- * Provides global exception handling across all the controllers in the application.
+ * Handles domain exceptions on application level. Also deals with invalid requests.
  */
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {

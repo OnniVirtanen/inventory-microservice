@@ -1,11 +1,11 @@
-package com.onnivirtanen.inventory.domain.model.request;
+package com.onnivirtanen.inventory.domain.command;
 
 import com.onnivirtanen.inventory.domain.model.valueobject.ShelfLocation;
 import lombok.NonNull;
 
 import java.util.UUID;
 
-public record NewShelfLocationRequest(
+public record NewShelfLocationCommand(
 
         @NonNull
         UUID productId,

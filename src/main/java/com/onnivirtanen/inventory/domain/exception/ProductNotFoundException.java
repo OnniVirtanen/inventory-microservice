@@ -1,6 +1,6 @@
-package com.onnivirtanen.inventory.domain.model.exception;
+package com.onnivirtanen.inventory.domain.exception;
 
-public class ProductNotFoundException extends RuntimeException {
+public class ProductNotFoundException extends DomainException {
 
     public ProductNotFoundException(final String errorMessage) {
         super(errorMessage);

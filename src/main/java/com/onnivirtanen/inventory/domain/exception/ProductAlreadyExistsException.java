@@ -1,6 +1,6 @@
-package com.onnivirtanen.inventory.domain.model.exception;
+package com.onnivirtanen.inventory.domain.exception;
 
-public class ProductAlreadyExistsException extends RuntimeException {
+public class ProductAlreadyExistsException extends DomainException {
 
     public ProductAlreadyExistsException(final String errorMessage) {
         super(errorMessage);

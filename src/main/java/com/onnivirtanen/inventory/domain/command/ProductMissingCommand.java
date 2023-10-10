@@ -1,11 +1,11 @@
-package com.onnivirtanen.inventory.domain.model.request;
+package com.onnivirtanen.inventory.domain.command;
 
 import com.onnivirtanen.inventory.domain.model.valueobject.Quantity;
 import lombok.NonNull;
 
 import java.util.UUID;
 
-public record ProductMissingRequest(
+public record ProductMissingCommand(
 
     @NonNull
     UUID productId,

@@ -1,15 +1,15 @@
 package com.onnivirtanen.inventory.domain.usecases;
 
 import com.onnivirtanen.inventory.domain.model.aggregate.Product;
-import com.onnivirtanen.inventory.domain.model.exception.ProductAlreadyExistsException;
-import com.onnivirtanen.inventory.domain.model.exception.ProductNotFoundException;
+import com.onnivirtanen.inventory.domain.exception.ProductAlreadyExistsException;
+import com.onnivirtanen.inventory.domain.exception.ProductNotFoundException;
 import com.onnivirtanen.inventory.domain.port.in.UseCase;
 import com.onnivirtanen.inventory.domain.port.out.InventoryRepository;
-import com.onnivirtanen.inventory.domain.model.request.AddNewProductRequest;
-import com.onnivirtanen.inventory.domain.model.request.NewShelfLocationRequest;
-import com.onnivirtanen.inventory.domain.model.request.ProductMissingRequest;
-import com.onnivirtanen.inventory.domain.model.request.ReStockProductRequest;
-import com.onnivirtanen.inventory.domain.model.request.RemoveProductRequest;
+import com.onnivirtanen.inventory.domain.command.AddNewProductCommand;
+import com.onnivirtanen.inventory.domain.command.NewShelfLocationCommand;
+import com.onnivirtanen.inventory.domain.command.ProductMissingCommand;
+import com.onnivirtanen.inventory.domain.command.ReStockProductCommand;
+import com.onnivirtanen.inventory.domain.command.RemoveProductCommand;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public class UseCaseImpl implements UseCase {
     }
 
     @Override
-    public void addNewProduct(AddNewProductRequest request) {
+    public void addNewProduct(AddNewProductCommand request) {
         boolean productExists = repository.productExistsByEAN(request.barcode());
         if (productExists) {
             throw new ProductAlreadyExistsException("Product with same EAN already exists.");
@@ -35,7 +35,7 @@ public class UseCaseImpl implements UseCase {
     }
 
     @Override
-    public void reStockProduct(ReStockProductRequest request) {
+    public void reStockProduct(ReStockProductCommand request) {
         Product product = repository.findById(request.productId())
                 .orElseThrow(() -> new ProductNotFoundException("No product found by given id"));
 
@@ -45,7 +45,7 @@ public class UseCaseImpl implements UseCase {
     }
 
     @Override
-    public void removeProductFromSelection(RemoveProductRequest request) {
+    public void removeProductFromSelection(RemoveProductCommand request) {
         repository.findById(request.productId())
                 .orElseThrow(() -> new ProductNotFoundException("No product found by given id"));
 
@@ -58,7 +58,7 @@ public class UseCaseImpl implements UseCase {
     }
 
     @Override
-    public void assignNewShelfLocation(NewShelfLocationRequest request) {
+    public void assignNewShelfLocation(NewShelfLocationCommand request) {
         Product product = repository.findById(request.productId())
                 .orElseThrow(() -> new ProductNotFoundException("No product found by given id"));
 
@@ -68,7 +68,7 @@ public class UseCaseImpl implements UseCase {
     }
 
     @Override
-    public void markProductMissing(ProductMissingRequest request) {
+    public void markProductMissing(ProductMissingCommand request) {
         Product product = repository.findById(request.productId())
                 .orElseThrow(() -> new ProductNotFoundException("No product found by given id"));
 

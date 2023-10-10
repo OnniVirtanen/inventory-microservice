@@ -1,7 +1,7 @@
 package com.onnivirtanen.inventory.domain.model.aggregate;
 
 import com.onnivirtanen.inventory.domain.model.entity.Category;
-import com.onnivirtanen.inventory.domain.model.request.AddNewProductRequest;
+import com.onnivirtanen.inventory.domain.command.AddNewProductCommand;
 import com.onnivirtanen.inventory.domain.model.valueobject.Discount;
 import com.onnivirtanen.inventory.domain.model.valueobject.EANBarcode;
 import com.onnivirtanen.inventory.domain.model.valueobject.Price;
@@ -102,7 +102,7 @@ public class Product implements Aggregate {
         this.eventHistory.add(event);
     }
 
-    public static Product from(AddNewProductRequest request) {
+    public static Product from(AddNewProductCommand request) {
         LocalDateTime timestamp = LocalDateTime.now();
         ProductEvent createEvent =
                 new ProductEvent(null, ProductEvent.ProductEventType.PRODUCT_CREATED, timestamp);
