@@ -45,8 +45,7 @@ public class InventoryService implements UseCase {
         product.reStock(request.quantity());
         repository.update(product);
 
-        eventPublisher.publish(product.getDomainEvents().get(0));
-        product.clearDomainEvents();
+        publishDomainEvents(product);
     }
 
     @Override
@@ -78,7 +77,13 @@ public class InventoryService implements UseCase {
                 .orElseThrow(() -> new ProductNotFoundException("No product found by given id"));
 
         product.markProductMissing(request.quantity());
-
         repository.update(product);
+
+        publishDomainEvents(product);
+    }
+
+    private void publishDomainEvents(Product product) {
+        product.getDomainEvents().forEach(eventPublisher::publish);
+        product.clearDomainEvents();
     }
 }

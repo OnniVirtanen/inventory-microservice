@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.onnivirtanen.inventory.domain.exception.AggregateObjectArgumentException;
+import com.onnivirtanen.inventory.domain.exception.EntityObjectArgumentException;
 import com.onnivirtanen.inventory.domain.exception.ProductAlreadyExistsException;
 import com.onnivirtanen.inventory.domain.exception.ProductNotFoundException;
+import com.onnivirtanen.inventory.domain.exception.ValueObjectArgumentException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -47,5 +50,23 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
     public ResponseEntity<String> handleProductNotFoundException(ProductNotFoundException exception) {
         logger.error(exception.getMessage(), exception);
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ValueObjectArgumentException.class)
+    public ResponseEntity<String> handleValueObjectArgumentException(ValueObjectArgumentException exception) {
+        logger.error(exception.getMessage(), exception);
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(EntityObjectArgumentException.class)
+    public ResponseEntity<String> handleEntityObjectArgumentException(EntityObjectArgumentException exception) {
+        logger.error(exception.getMessage(), exception);
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AggregateObjectArgumentException.class)
+    public ResponseEntity<String> handleAggregateObjectArgumentException(AggregateObjectArgumentException exception) {
+        logger.error(exception.getMessage(), exception);
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

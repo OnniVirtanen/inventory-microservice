@@ -1,5 +1,7 @@
 package com.onnivirtanen.inventory.domain.model.valueobject;
 
+import com.onnivirtanen.inventory.domain.exception.ValueObjectArgumentException;
+
 import java.util.Objects;
 
 public final class Quantity implements ValueObject {
@@ -18,10 +20,10 @@ public final class Quantity implements ValueObject {
 
     private static void validate(Long amount) {
         if (amount == null) {
-            throw new IllegalArgumentException("Quantity cannot be null.");
+            throw new ValueObjectArgumentException("Quantity cannot be null.");
         }
         if (isNegativeAmount(amount)) {
-            throw new IllegalArgumentException("Quantity cannot be negative.");
+            throw new ValueObjectArgumentException("Quantity cannot be negative.");
         }
     }
 

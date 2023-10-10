@@ -1,7 +1,9 @@
 package com.onnivirtanen.inventory.domain.model.aggregate;
 
 import com.onnivirtanen.inventory.domain.event.DomainEvent;
+import com.onnivirtanen.inventory.domain.event.MarkProductMissingEvent;
 import com.onnivirtanen.inventory.domain.event.ProductRestockedEvent;
+import com.onnivirtanen.inventory.domain.exception.AggregateObjectArgumentException;
 import com.onnivirtanen.inventory.domain.model.entity.Category;
 import com.onnivirtanen.inventory.domain.command.AddNewProductCommand;
 import com.onnivirtanen.inventory.domain.model.valueobject.Discount;
@@ -62,10 +64,12 @@ public class Product implements Aggregate {
 
     public void markProductMissing(Quantity quantityMissing) {
         if (this.quantity.getAmount() - quantityMissing.getAmount() < 0) {
-            throw new IllegalArgumentException("Product cannot have more items missing than there is stock.");
+            throw new AggregateObjectArgumentException("Product cannot have more items missing than there is stock.");
         }
 
         this.quantity = new Quantity(this.quantity.getAmount() - quantityMissing.getAmount());
+        domainEvents.add(new MarkProductMissingEvent(this, quantityMissing
+                + " products was marked missing"));
     }
 
     public void removeDiscount() {

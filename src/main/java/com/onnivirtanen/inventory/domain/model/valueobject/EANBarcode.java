@@ -1,5 +1,6 @@
 package com.onnivirtanen.inventory.domain.model.valueobject;
 
+import com.onnivirtanen.inventory.domain.exception.ValueObjectArgumentException;
 import lombok.Getter;
 
 @Getter
@@ -14,16 +15,16 @@ public final class EANBarcode implements ValueObject {
 
     private static void validate(String barcode) {
         if (barcode == null || !(barcode.length() == 8 || barcode.length() == 13)) {
-            throw new IllegalArgumentException("EAN barcode must be either 8 or 13 digits long.");
+            throw new ValueObjectArgumentException("EAN barcode must be either 8 or 13 digits long.");
         }
         if (!barcode.matches("[0-9]+")) {
-            throw new IllegalArgumentException("EAN barcode can only contain digits.");
+            throw new ValueObjectArgumentException("EAN barcode can only contain digits.");
         }
         if (barcode.length() == 13 && !isValidEAN13(barcode)) {
-            throw new IllegalArgumentException("Invalid EAN-13 barcode.");
+            throw new ValueObjectArgumentException("Invalid EAN-13 barcode.");
         }
         if (barcode.length() == 8 && !isValidEAN8(barcode)) {
-            throw new IllegalArgumentException("Invalid EAN-8 barcode.");
+            throw new ValueObjectArgumentException("Invalid EAN-8 barcode.");
         }
     }
 

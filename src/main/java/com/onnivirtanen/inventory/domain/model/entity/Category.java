@@ -1,5 +1,6 @@
 package com.onnivirtanen.inventory.domain.model.entity;
 
+import com.onnivirtanen.inventory.domain.exception.EntityObjectArgumentException;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -28,7 +29,7 @@ public class Category implements Entity {
 
     private static void validate(CategoryName name) {
         if (name == null) {
-            throw new IllegalArgumentException("Category cannot be null");
+            throw new EntityObjectArgumentException("Category cannot be null");
         }
     }
 

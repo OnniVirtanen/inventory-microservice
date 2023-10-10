@@ -1,5 +1,6 @@
 package com.onnivirtanen.inventory.domain.model.valueobject;
 
+import com.onnivirtanen.inventory.domain.exception.ValueObjectArgumentException;
 import lombok.Getter;
 
 import java.math.BigDecimal;
@@ -18,13 +19,13 @@ public final class Price implements ValueObject {
 
     private static void validate(BigDecimal amount) {
         if (amount == null) {
-            throw new IllegalArgumentException("Price cannot be null.");
+            throw new ValueObjectArgumentException("Price cannot be null.");
         }
         if (isNegativeAmount(amount)) {
-            throw new IllegalArgumentException("Price cannot be negative.");
+            throw new ValueObjectArgumentException("Price cannot be negative.");
         }
         if (isZero(amount)) {
-            throw new IllegalArgumentException("Price cannot be zero.");
+            throw new ValueObjectArgumentException("Price cannot be zero.");
         }
     }
 

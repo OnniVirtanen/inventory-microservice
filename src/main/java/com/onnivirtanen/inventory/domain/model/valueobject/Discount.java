@@ -1,5 +1,6 @@
 package com.onnivirtanen.inventory.domain.model.valueobject;
 
+import com.onnivirtanen.inventory.domain.exception.ValueObjectArgumentException;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -17,7 +18,7 @@ public final class Discount implements ValueObject {
 
     private static void validate(Integer discountPercentage) {
         if (discountPercentage < 0 || discountPercentage >= 100) {
-            throw new IllegalArgumentException(
+            throw new ValueObjectArgumentException(
                     "Discount cannot be less than 0 OR more than or equal to 100."
             );
         }

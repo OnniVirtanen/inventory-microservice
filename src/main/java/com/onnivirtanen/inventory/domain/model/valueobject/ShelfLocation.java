@@ -1,5 +1,6 @@
 package com.onnivirtanen.inventory.domain.model.valueobject;
 
+import com.onnivirtanen.inventory.domain.exception.ValueObjectArgumentException;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -17,10 +18,10 @@ public final class ShelfLocation implements ValueObject {
 
     private static void validate(String location) {
         if (location == null) {
-            throw new IllegalArgumentException("Location cannot be null.");
+            throw new ValueObjectArgumentException("Location cannot be null.");
         }
         if (!isCorrectShelfNumber(location)) {
-            throw new IllegalArgumentException(
+            throw new ValueObjectArgumentException(
                     "Shelf location must start with one uppercase letter and it must be followed by two numbers."
             );
         }
