@@ -1,4 +1,4 @@
-package com.onnivirtanen.inventory.infrastructure.jpa.entity;
+package com.onnivirtanen.inventory.infrastructure.repository.jpa.entity;
 
 
 import jakarta.persistence.CascadeType;

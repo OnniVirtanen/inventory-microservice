@@ -1,7 +1,7 @@
-package com.onnivirtanen.inventory.infrastructure;
+package com.onnivirtanen.inventory.infrastructure.repository;
 
 import com.onnivirtanen.inventory.domain.port.out.InventoryRepository;
-import com.onnivirtanen.inventory.infrastructure.jpa.JpaInventoryRepository;
+import com.onnivirtanen.inventory.infrastructure.repository.jpa.JpaInventoryRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

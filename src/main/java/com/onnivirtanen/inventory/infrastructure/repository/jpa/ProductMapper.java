@@ -1,4 +1,4 @@
-package com.onnivirtanen.inventory.infrastructure.jpa;
+package com.onnivirtanen.inventory.infrastructure.repository.jpa;
 
 import com.onnivirtanen.inventory.domain.model.aggregate.Product;
 import com.onnivirtanen.inventory.domain.model.entity.Category;
@@ -7,8 +7,8 @@ import com.onnivirtanen.inventory.domain.model.valueobject.EANBarcode;
 import com.onnivirtanen.inventory.domain.model.valueobject.Price;
 import com.onnivirtanen.inventory.domain.model.valueobject.Quantity;
 import com.onnivirtanen.inventory.domain.model.valueobject.ShelfLocation;
-import com.onnivirtanen.inventory.infrastructure.jpa.entity.CategoryEntity;
-import com.onnivirtanen.inventory.infrastructure.jpa.entity.ProductEntity;
+import com.onnivirtanen.inventory.infrastructure.repository.jpa.entity.CategoryEntity;
+import com.onnivirtanen.inventory.infrastructure.repository.jpa.entity.ProductEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

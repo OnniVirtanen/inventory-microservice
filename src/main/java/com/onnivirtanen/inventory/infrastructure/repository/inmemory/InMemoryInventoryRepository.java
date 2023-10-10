@@ -1,4 +1,4 @@
-package com.onnivirtanen.inventory.infrastructure.inmemory;
+package com.onnivirtanen.inventory.infrastructure.repository.inmemory;
 
 import com.onnivirtanen.inventory.domain.model.aggregate.Product;
 import com.onnivirtanen.inventory.domain.model.valueobject.EANBarcode;

@@ -32,18 +32,12 @@
 			<artifactId>spring-boot-starter-validation</artifactId>
 			<version>3.0.4</version>
 		</dependency>
+
+		<!-- EVENT PRODUCER -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
 		</dependency>
-		<!--
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>5.4.24.Final</version>
-		</dependency>
-		-->
 
 		<!-- REDUCE BOILER PLATE-->
 		<dependency>
@@ -59,10 +53,20 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		<!-- TEST DATABASE-->
+		<!-- TEST -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 
