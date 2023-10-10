@@ -13,7 +13,6 @@ import com.onnivirtanen.inventory.domain.model.valueobject.Quantity;
 import com.onnivirtanen.inventory.domain.model.valueobject.ShelfLocation;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -57,7 +56,6 @@ public class Product implements Aggregate {
     }
 
     public void reStock(Quantity quantity) {
-        LocalDateTime timestamp = LocalDateTime.now();
         this.quantity = new Quantity(this.quantity.getAmount() + quantity.getAmount());
         domainEvents.add(new ProductRestockedEvent(this, "Product restocked"));
     }
@@ -87,12 +85,10 @@ public class Product implements Aggregate {
     }
 
     public void assignShelfLocation(ShelfLocation location) {
-        LocalDateTime timestamp = LocalDateTime.now();
         this.location = location;
     }
 
     public static Product from(AddNewProductCommand request) {
-        LocalDateTime timestamp = LocalDateTime.now();
         return new Product(
                 null,
                 request.barcode(),
