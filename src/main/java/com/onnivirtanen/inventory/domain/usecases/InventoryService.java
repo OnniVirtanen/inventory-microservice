@@ -4,6 +4,7 @@ import com.onnivirtanen.inventory.domain.model.aggregate.Product;
 import com.onnivirtanen.inventory.domain.exception.ProductAlreadyExistsException;
 import com.onnivirtanen.inventory.domain.exception.ProductNotFoundException;
 import com.onnivirtanen.inventory.domain.port.in.UseCase;
+import com.onnivirtanen.inventory.domain.port.out.DomainEventPublisher;
 import com.onnivirtanen.inventory.domain.port.out.InventoryRepository;
 import com.onnivirtanen.inventory.domain.command.AddNewProductCommand;
 import com.onnivirtanen.inventory.domain.command.NewShelfLocationCommand;
@@ -15,12 +16,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UseCaseImpl implements UseCase {
+public class InventoryService implements UseCase {
 
     private final InventoryRepository repository;
+    private final DomainEventPublisher eventPublisher;
 
-    public UseCaseImpl(InventoryRepository repository) {
+    public InventoryService(InventoryRepository repository, DomainEventPublisher eventPublisher) {
         this.repository = repository;
+        this.eventPublisher = eventPublisher;
     }
 
     @Override
@@ -40,8 +43,10 @@ public class UseCaseImpl implements UseCase {
                 .orElseThrow(() -> new ProductNotFoundException("No product found by given id"));
 
         product.reStock(request.quantity());
-
         repository.update(product);
+
+        eventPublisher.publish(product.getDomainEvents().get(0));
+        product.clearDomainEvents();
     }
 
     @Override

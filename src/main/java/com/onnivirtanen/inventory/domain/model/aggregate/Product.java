@@ -1,11 +1,12 @@
 package com.onnivirtanen.inventory.domain.model.aggregate;
 
+import com.onnivirtanen.inventory.domain.event.DomainEvent;
+import com.onnivirtanen.inventory.domain.event.ProductRestockedEvent;
 import com.onnivirtanen.inventory.domain.model.entity.Category;
 import com.onnivirtanen.inventory.domain.command.AddNewProductCommand;
 import com.onnivirtanen.inventory.domain.model.valueobject.Discount;
 import com.onnivirtanen.inventory.domain.model.valueobject.EANBarcode;
 import com.onnivirtanen.inventory.domain.model.valueobject.Price;
-import com.onnivirtanen.inventory.domain.model.entity.ProductEvent;
 import com.onnivirtanen.inventory.domain.model.valueobject.Quantity;
 import com.onnivirtanen.inventory.domain.model.valueobject.ShelfLocation;
 import lombok.Getter;
@@ -20,8 +21,9 @@ import java.util.UUID;
 @Getter
 public class Product implements Aggregate {
 
+    private final List<DomainEvent> domainEvents = new ArrayList<>();
+
     private final UUID id;
-    private final List<ProductEvent> eventHistory;
     private EANBarcode barcode;
     private Price price;
     private Category category;
@@ -30,13 +32,12 @@ public class Product implements Aggregate {
     private Quantity quantity;
 
     public Product(UUID id, EANBarcode barcode, Price price, Category category, ShelfLocation location,
-                   List<ProductEvent> eventHistory, Discount discount, Quantity quantity) {
+                   Discount discount, Quantity quantity) {
         this.id = id;
         this.barcode = barcode;
         this.price = price;
         this.category = category;
         this.location = location;
-        this.eventHistory = eventHistory;
         this.discount = discount;
         this.quantity = quantity;
     }
@@ -55,11 +56,8 @@ public class Product implements Aggregate {
 
     public void reStock(Quantity quantity) {
         LocalDateTime timestamp = LocalDateTime.now();
-        ProductEvent reStockEvent =
-                new ProductEvent(null, ProductEvent.ProductEventType.PRODUCT_RESTOCKED, timestamp);
-
-        this.eventHistory.add(reStockEvent);
         this.quantity = new Quantity(this.quantity.getAmount() + quantity.getAmount());
+        domainEvents.add(new ProductRestockedEvent(this, "Product restocked"));
     }
 
     public void markProductMissing(Quantity quantityMissing) {
@@ -67,11 +65,6 @@ public class Product implements Aggregate {
             throw new IllegalArgumentException("Product cannot have more items missing than there is stock.");
         }
 
-        LocalDateTime timestamp = LocalDateTime.now();
-        ProductEvent missingProductEvent =
-                new ProductEvent(null, ProductEvent.ProductEventType.PRODUCT_MISSING, timestamp);
-
-        this.eventHistory.add(missingProductEvent);
         this.quantity = new Quantity(this.quantity.getAmount() - quantityMissing.getAmount());
     }
 
@@ -91,29 +84,17 @@ public class Product implements Aggregate {
 
     public void assignShelfLocation(ShelfLocation location) {
         LocalDateTime timestamp = LocalDateTime.now();
-        ProductEvent newShelfEvent =
-                new ProductEvent(null, ProductEvent.ProductEventType.NEW_SHELF_LOCATION, timestamp);
-
-        this.eventHistory.add(newShelfEvent);
         this.location = location;
-    }
-
-    private void addEvent(ProductEvent event) {
-        this.eventHistory.add(event);
     }
 
     public static Product from(AddNewProductCommand request) {
         LocalDateTime timestamp = LocalDateTime.now();
-        ProductEvent createEvent =
-                new ProductEvent(null, ProductEvent.ProductEventType.PRODUCT_CREATED, timestamp);
-
         return new Product(
                 null,
                 request.barcode(),
                 request.price(),
                 request.category(),
                 request.location(),
-                new ArrayList<>(Collections.singleton(createEvent)),
                 request.discount(),
                 request.quantity()
         );
@@ -140,8 +121,17 @@ public class Product implements Aggregate {
                 ", price=" + price +
                 ", category=" + category +
                 ", location=" + location +
-                ", eventHistory=" + eventHistory +
                 ", quantity=" + quantity +
                 '}';
+    }
+
+    @Override
+    public List<DomainEvent> getDomainEvents() {
+        return Collections.unmodifiableList(domainEvents);
+    }
+
+    @Override
+    public void clearDomainEvents() {
+        domainEvents.clear();
     }
 }
