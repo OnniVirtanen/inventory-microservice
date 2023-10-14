@@ -3,10 +3,13 @@ package com.onnivirtanen.inventory.domain.model.valueobject;
 import com.onnivirtanen.inventory.domain.exception.ValueObjectArgumentException;
 import lombok.Getter;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Getter
-public final class ShelfLocation implements ValueObject {
+public final class ShelfLocation implements ValueObject, Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private final String location;
 

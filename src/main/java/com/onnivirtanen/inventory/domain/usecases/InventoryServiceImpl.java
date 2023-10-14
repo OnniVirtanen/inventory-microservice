@@ -3,7 +3,7 @@ package com.onnivirtanen.inventory.domain.usecases;
 import com.onnivirtanen.inventory.domain.model.aggregate.Product;
 import com.onnivirtanen.inventory.domain.exception.ProductAlreadyExistsException;
 import com.onnivirtanen.inventory.domain.exception.ProductNotFoundException;
-import com.onnivirtanen.inventory.domain.port.in.UseCase;
+import com.onnivirtanen.inventory.domain.port.in.InventoryService;
 import com.onnivirtanen.inventory.domain.port.out.DomainEventPublisher;
 import com.onnivirtanen.inventory.domain.port.out.InventoryRepository;
 import com.onnivirtanen.inventory.domain.command.AddNewProductCommand;
@@ -11,33 +11,37 @@ import com.onnivirtanen.inventory.domain.command.NewShelfLocationCommand;
 import com.onnivirtanen.inventory.domain.command.ProductMissingCommand;
 import com.onnivirtanen.inventory.domain.command.ReStockProductCommand;
 import com.onnivirtanen.inventory.domain.command.RemoveProductCommand;
+
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-public class InventoryService implements UseCase {
+public class InventoryServiceImpl implements InventoryService {
 
     private final InventoryRepository repository;
     private final DomainEventPublisher eventPublisher;
 
-    public InventoryService(InventoryRepository repository, DomainEventPublisher eventPublisher) {
+    public InventoryServiceImpl(InventoryRepository repository, DomainEventPublisher eventPublisher) {
         this.repository = repository;
         this.eventPublisher = eventPublisher;
     }
 
     @Override
-    public void addNewProduct(AddNewProductCommand request) {
+    @Transactional
+    public Product addNewProduct(AddNewProductCommand request) {
         boolean productExists = repository.productExistsByEAN(request.barcode());
         if (productExists) {
             throw new ProductAlreadyExistsException("Product with same EAN already exists.");
         }
 
         Product product = Product.from(request);
-        repository.save(product);
+        return repository.save(product);
     }
 
     @Override
+    @Transactional
     public void reStockProduct(ReStockProductCommand request) {
         Product product = repository.findById(request.productId())
                 .orElseThrow(() -> new ProductNotFoundException("No product found by given id"));
@@ -49,6 +53,7 @@ public class InventoryService implements UseCase {
     }
 
     @Override
+    @Transactional
     public void removeProductFromSelection(RemoveProductCommand request) {
         repository.findById(request.productId())
                 .orElseThrow(() -> new ProductNotFoundException("No product found by given id"));
@@ -57,11 +62,13 @@ public class InventoryService implements UseCase {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Product> findAllProducts() {
         return repository.findAll();
     }
 
     @Override
+    @Transactional
     public void assignNewShelfLocation(NewShelfLocationCommand request) {
         Product product = repository.findById(request.productId())
                 .orElseThrow(() -> new ProductNotFoundException("No product found by given id"));
@@ -72,6 +79,7 @@ public class InventoryService implements UseCase {
     }
 
     @Override
+    @Transactional
     public void markProductMissing(ProductMissingCommand request) {
         Product product = repository.findById(request.productId())
                 .orElseThrow(() -> new ProductNotFoundException("No product found by given id"));

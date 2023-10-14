@@ -3,11 +3,14 @@ package com.onnivirtanen.inventory.domain.model.entity;
 import com.onnivirtanen.inventory.domain.exception.EntityObjectArgumentException;
 import lombok.Getter;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
 @Getter
-public class Category implements Entity {
+public class Category implements Entity, Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private UUID categoryId;
     private final CategoryName name;

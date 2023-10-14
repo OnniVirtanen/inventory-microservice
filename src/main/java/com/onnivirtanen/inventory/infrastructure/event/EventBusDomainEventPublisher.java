@@ -1,4 +1,4 @@
-package com.onnivirtanen.inventory.application.event;
+package com.onnivirtanen.inventory.infrastructure.event;
 
 import com.onnivirtanen.inventory.domain.event.DomainEvent;
 import com.onnivirtanen.inventory.domain.port.out.DomainEventPublisher;

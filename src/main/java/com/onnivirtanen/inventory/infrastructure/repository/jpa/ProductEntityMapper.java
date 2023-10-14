@@ -1,4 +1,4 @@
-package com.onnivirtanen.inventory.infrastructure.jpa;
+package com.onnivirtanen.inventory.infrastructure.repository.jpa;
 
 import com.onnivirtanen.inventory.domain.model.aggregate.Product;
 import com.onnivirtanen.inventory.domain.model.entity.Category;
@@ -7,19 +7,19 @@ import com.onnivirtanen.inventory.domain.model.valueobject.EANBarcode;
 import com.onnivirtanen.inventory.domain.model.valueobject.Price;
 import com.onnivirtanen.inventory.domain.model.valueobject.Quantity;
 import com.onnivirtanen.inventory.domain.model.valueobject.ShelfLocation;
-import com.onnivirtanen.inventory.infrastructure.jpa.entity.CategoryEntity;
-import com.onnivirtanen.inventory.infrastructure.jpa.entity.ProductEntity;
+import com.onnivirtanen.inventory.infrastructure.repository.jpa.entity.CategoryEntity;
+import com.onnivirtanen.inventory.infrastructure.repository.jpa.entity.ProductEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 import java.math.BigDecimal;
 
 @Mapper
-public interface ProductMapper {
-    ProductMapper INSTANCE = Mappers.getMapper( ProductMapper.class );
+public interface ProductEntityMapper {
+    ProductEntityMapper INSTANCE = Mappers.getMapper( ProductEntityMapper.class );
 
-    ProductEntity productToProductEntity(Product product);
-    Product productEntityToProduct(ProductEntity productEntity);
+    ProductEntity toEntity(Product product);
+    Product toProduct(ProductEntity productEntity);
 
     /*
     Maps product to product entity

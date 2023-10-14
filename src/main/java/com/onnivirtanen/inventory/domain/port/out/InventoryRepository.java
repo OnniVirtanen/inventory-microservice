@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface InventoryRepository {
 
-    void save(Product product);
+    Product save(Product product);
 
     void deleteById(UUID productId);
 
@@ -17,7 +17,7 @@ public interface InventoryRepository {
 
     Optional<Product> findById(UUID productId);
 
-    void update(Product product);
+    Product update(Product product);
 
     boolean productExistsByEAN(EANBarcode eanBarcode);
 }

@@ -1,13 +1,11 @@
 version: '3'
 
 services:
-  payment-service:
+  inventory-service:
     image: 'inventory-service:latest'
     build:
       context: .
-    container_name: payment-service
-    depends_on:
-      - db
+    container_name: inventory-service
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
       - SPRING_DATASOURCE_USERNAME=postgres
@@ -15,11 +13,9 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
     ports:
       - "8080:8080"
-  db:
-    image: 'postgres:13.1-alpine'
-    container_name: db
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    ports:
-      - "5332:5432"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    external: true
