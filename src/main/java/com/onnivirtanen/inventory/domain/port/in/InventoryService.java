@@ -13,7 +13,7 @@ public interface InventoryService {
 
     Product addNewProduct(AddNewProductCommand request);
 
-    void reStockProduct(ReStockProductCommand request);
+    Product reStockProduct(ReStockProductCommand request);
 
     void removeProductFromSelection(RemoveProductCommand request);
 

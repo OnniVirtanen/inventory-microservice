@@ -37,19 +37,22 @@ public class InventoryServiceImpl implements InventoryService {
         }
 
         Product product = Product.from(request);
+
+        publishDomainEvents(product);
         return repository.save(product);
     }
 
     @Override
     @Transactional
-    public void reStockProduct(ReStockProductCommand request) {
+    public Product reStockProduct(ReStockProductCommand request) {
         Product product = repository.findById(request.productId())
                 .orElseThrow(() -> new ProductNotFoundException("No product found by given id"));
 
         product.reStock(request.quantity());
-        repository.update(product);
+        Product updatedProduct = repository.update(product);
 
         publishDomainEvents(product);
+        return updatedProduct;
     }
 
     @Override

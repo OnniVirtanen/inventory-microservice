@@ -20,6 +20,18 @@ public final class Price implements ValueObject, Serializable {
         this.amount = amount;
     }
 
+    public Price(double amount) {
+        this(new BigDecimal(amount));
+    }
+
+    public Price(int amount) {
+        this(new BigDecimal(amount));
+    }
+
+    public Price(String amount) {
+        this(new BigDecimal(amount));
+    }
+
     private static void validate(BigDecimal amount) {
         if (amount == null) {
             throw new ValueObjectArgumentException("Price cannot be null.");

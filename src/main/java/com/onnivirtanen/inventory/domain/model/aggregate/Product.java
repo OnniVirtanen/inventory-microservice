@@ -2,6 +2,7 @@ package com.onnivirtanen.inventory.domain.model.aggregate;
 
 import com.onnivirtanen.inventory.domain.event.DomainEvent;
 import com.onnivirtanen.inventory.domain.event.MarkProductMissingEvent;
+import com.onnivirtanen.inventory.domain.event.ProductCreatedEvent;
 import com.onnivirtanen.inventory.domain.event.ProductRestockedEvent;
 import com.onnivirtanen.inventory.domain.exception.AggregateObjectArgumentException;
 import com.onnivirtanen.inventory.domain.model.entity.Category;
@@ -91,7 +92,7 @@ public class Product implements Aggregate, Serializable {
     }
 
     public static Product from(AddNewProductCommand request) {
-        return new Product(
+        Product product = new Product(
                 null,
                 request.barcode(),
                 request.price(),
@@ -100,6 +101,10 @@ public class Product implements Aggregate, Serializable {
                 request.discount(),
                 request.quantity()
         );
+
+        product.addDomainEvent(new ProductCreatedEvent(product, "product created"));
+
+        return product;
     }
 
     @Override
@@ -135,5 +140,9 @@ public class Product implements Aggregate, Serializable {
     @Override
     public void clearDomainEvents() {
         domainEvents.clear();
+    }
+
+    private void addDomainEvent(DomainEvent domainEvent) {
+        domainEvents.add(domainEvent);
     }
 }
