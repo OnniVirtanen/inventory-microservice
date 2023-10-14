@@ -10,13 +10,15 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+import java.util.Objects;
 import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @Entity
 @Table(name = "category")
-public class CategoryEntity {
+public class CategoryEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -28,5 +30,18 @@ public class CategoryEntity {
             this.categoryId = value.getCategoryId();
         }
         this.name = value.getName().toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CategoryEntity that = (CategoryEntity) o;
+        return categoryId.equals(that.categoryId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(categoryId);
     }
 }

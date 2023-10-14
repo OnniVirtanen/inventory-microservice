@@ -9,9 +9,9 @@ import com.onnivirtanen.inventory.domain.command.RemoveProductCommand;
 
 import java.util.List;
 
-public interface UseCase {
+public interface InventoryService {
 
-    void addNewProduct(AddNewProductCommand request);
+    Product addNewProduct(AddNewProductCommand request);
 
     void reStockProduct(ReStockProductCommand request);
 

@@ -3,11 +3,14 @@ package com.onnivirtanen.inventory.domain.model.valueobject;
 import com.onnivirtanen.inventory.domain.exception.ValueObjectArgumentException;
 import lombok.Getter;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 @Getter
-public final class Price implements ValueObject {
+public final class Price implements ValueObject, Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private final BigDecimal amount;
 

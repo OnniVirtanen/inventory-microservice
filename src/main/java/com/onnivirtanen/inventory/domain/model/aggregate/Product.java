@@ -13,6 +13,7 @@ import com.onnivirtanen.inventory.domain.model.valueobject.Quantity;
 import com.onnivirtanen.inventory.domain.model.valueobject.ShelfLocation;
 import lombok.Getter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,10 +21,11 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Getter
-public class Product implements Aggregate {
+public class Product implements Aggregate, Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private final List<DomainEvent> domainEvents = new ArrayList<>();
-
     private final UUID id;
     private EANBarcode barcode;
     private Price price;

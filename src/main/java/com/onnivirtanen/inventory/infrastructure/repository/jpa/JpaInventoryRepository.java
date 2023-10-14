@@ -10,7 +10,6 @@ import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
-import jakarta.transaction.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,14 +22,13 @@ public class JpaInventoryRepository implements InventoryRepository {
     private EntityManager entityManager;
 
     @Override
-    @Transactional
-    public void save(Product product) {
-        ProductEntity productEntity = ProductMapper.INSTANCE.productToProductEntity(product);
+    public Product save(Product product) {
+        ProductEntity productEntity = ProductEntityMapper.INSTANCE.toEntity(product);
         entityManager.persist(productEntity);
+        return ProductEntityMapper.INSTANCE.toProduct(productEntity);
     }
 
     @Override
-    @Transactional
     public void deleteById(UUID productId) {
         ProductEntity productEntity = entityManager.find(ProductEntity.class, productId);
         if (productEntity != null) {
@@ -45,7 +43,7 @@ public class JpaInventoryRepository implements InventoryRepository {
         Root<ProductEntity> rootEntry = cq.from(ProductEntity.class);
         CriteriaQuery<ProductEntity> all = cq.select(rootEntry);
         TypedQuery<ProductEntity> allQuery = entityManager.createQuery(all);
-        return allQuery.getResultList().stream().map(ProductMapper.INSTANCE::productEntityToProduct)
+        return allQuery.getResultList().stream().map(ProductEntityMapper.INSTANCE::toProduct)
                 .collect(Collectors.toList());
     }
 
@@ -53,14 +51,14 @@ public class JpaInventoryRepository implements InventoryRepository {
     public Optional<Product> findById(UUID productId) {
         ProductEntity productEntity = entityManager.find(ProductEntity.class, productId);
         return Optional.ofNullable(productEntity)
-                .map(ProductMapper.INSTANCE::productEntityToProduct);
+                .map(ProductEntityMapper.INSTANCE::toProduct);
     }
 
     @Override
-    @Transactional
-    public void update(Product product) {
-        ProductEntity productEntity = ProductMapper.INSTANCE.productToProductEntity(product);
-        entityManager.merge(productEntity);
+    public Product update(Product product) {
+        ProductEntity productEntity = ProductEntityMapper.INSTANCE.toEntity(product);
+        ProductEntity entity = entityManager.merge(productEntity);
+        return ProductEntityMapper.INSTANCE.toProduct(entity);
     }
 
     @Override

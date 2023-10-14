@@ -2,9 +2,12 @@ package com.onnivirtanen.inventory.domain.model.valueobject;
 
 import com.onnivirtanen.inventory.domain.exception.ValueObjectArgumentException;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public final class Quantity implements ValueObject {
+public final class Quantity implements ValueObject, Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private final Long amount;
 

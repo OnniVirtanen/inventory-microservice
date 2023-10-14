@@ -15,11 +15,11 @@ import org.mapstruct.factory.Mappers;
 import java.math.BigDecimal;
 
 @Mapper
-public interface ProductMapper {
-    ProductMapper INSTANCE = Mappers.getMapper( ProductMapper.class );
+public interface ProductEntityMapper {
+    ProductEntityMapper INSTANCE = Mappers.getMapper( ProductEntityMapper.class );
 
-    ProductEntity productToProductEntity(Product product);
-    Product productEntityToProduct(ProductEntity productEntity);
+    ProductEntity toEntity(Product product);
+    Product toProduct(ProductEntity productEntity);
 
     /*
     Maps product to product entity

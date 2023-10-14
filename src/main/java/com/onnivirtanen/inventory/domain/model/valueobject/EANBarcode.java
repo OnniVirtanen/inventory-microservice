@@ -3,8 +3,12 @@ package com.onnivirtanen.inventory.domain.model.valueobject;
 import com.onnivirtanen.inventory.domain.exception.ValueObjectArgumentException;
 import lombok.Getter;
 
+import java.io.Serializable;
+
 @Getter
-public final class EANBarcode implements ValueObject {
+public final class EANBarcode implements ValueObject, Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private final String barcode;
 
