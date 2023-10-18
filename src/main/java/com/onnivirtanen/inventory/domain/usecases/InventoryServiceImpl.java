@@ -37,9 +37,10 @@ public class InventoryServiceImpl implements InventoryService {
         }
 
         Product product = Product.from(request);
+        Product savedProduct = repository.save(product);
 
         publishDomainEvents(product);
-        return repository.save(product);
+        return savedProduct;
     }
 
     @Override
